@@ -49,7 +49,8 @@ function error_response(res, data) {
 
 const songsList = async (req, res) => {
 
-    const { category_id, searchText } = req.query
+    const { category_id, searchText, is_fev } = req.query;
+    let fev = []
     try {
         // request query for searchText
         if ((searchText != "" && searchText != undefined)) {
@@ -61,6 +62,23 @@ const songsList = async (req, res) => {
         if ((category_id != "" && category_id != undefined)) {
             var song_List = await songsModel.find({ category_id: ObjectId(category_id) })
         }
+        
+        // if is_fev list 
+        if(is_fev != [] && is_fev != undefined){
+            var abc = is_fev.split(',')
+            for(i of abc){
+                console.log(i)
+                console.log(ObjectId(i))
+                var song = await songsModel.findOne({_id:ObjectId(i)})
+                console.log(song)
+                if(song){
+                    fev.push(song)
+                }
+            }
+            song_List = fev
+        }
+        console.log(fev)
+        
         payload = {
             title: "Aarti have been listed successfully.",
             song_List
