@@ -3,7 +3,10 @@ var mongoose = require("mongoose")
 const songsSchema = mongoose.Schema({
     name: String,
     image: String,
-    type: String,
+    type: {
+        type:String,
+        enum:['aarti','stotr']
+    },
     lyrics: String,
     category_id: {
         type: mongoose.SchemaTypes.ObjectId,
